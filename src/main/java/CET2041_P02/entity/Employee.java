@@ -1,9 +1,11 @@
 package CET2041_P02.entity;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 
 import java.time.LocalDate;
-import java.util.List;
 
 @Entity
 @Table(name="employees")
@@ -21,20 +23,11 @@ public class Employee {
   @Column(name = "last_name", nullable = false)
   private String lastName;
 
-  @Enumerated(EnumType.STRING)
   @Column(name = "gender", nullable = false)
   private  Gender gender;
 
   @Column(name = "hire_date", nullable = false)
   private LocalDate hireDate;
-
-  @OneToMany(mappedBy = "employee")
-  private List<DepartmentEmployee> departmentEmployees;
-
-  @OneToMany(mappedBy = "manager")
-  private List<DepartmentManager> departmentManagers;
-
-
 
   public Employee() {}
 
@@ -91,35 +84,5 @@ public class Employee {
 
   public void setHireDate(LocalDate hireDate) {
     this.hireDate = hireDate;
-  }
-
-  public List<DepartmentEmployee> getDepartmentEmployees() {
-    return departmentEmployees;
-  }
-
-  public void setDepartmentEmployees(List<DepartmentEmployee> departmentEmployees) {
-    this.departmentEmployees = departmentEmployees;
-  }
-
-  public List<DepartmentManager> getDepartmentManagers() {
-    return departmentManagers;
-  }
-
-  public void setDepartmentManagers(List<DepartmentManager> departmentManagers) {
-    this.departmentManagers = departmentManagers;
-  }
-
-  @Override
-  public String toString() {
-    return "Employee{" +
-      "empNo=" + empNo +
-      ", date=" + date +
-      ", firstName='" + firstName + '\'' +
-      ", lastName='" + lastName + '\'' +
-      ", gender=" + gender +
-      ", hireDate=" + hireDate +
-      ", departmentEmployees=" + departmentEmployees +
-      ", departmentManagers=" + departmentManagers +
-      '}';
   }
 }
