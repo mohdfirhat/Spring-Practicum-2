@@ -1,11 +1,18 @@
 package CET2041_P02.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import lombok.*;
 
 import java.util.List;
 
 @Entity
 @Table(name = "departments")
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@ToString(exclude = {"employees","managers"})
 public class Department {
   @Id
   @Column(name = "dept_no", nullable = false, length = 4)
@@ -15,18 +22,10 @@ public class Department {
   private String deptName;
 
   @OneToMany(mappedBy = "department")
+  @JsonIgnore
   private List<DepartmentEmployee> employees;
 
   @OneToMany(mappedBy = "department")
+  @JsonIgnore
   private List<DepartmentManager> managers;
-
-
-  public Department() {}
-
-  public Department(String deptNo, String deptName) {
-    this.deptNo = deptNo;
-    this.deptName = deptName;
-  }
-
-
 }

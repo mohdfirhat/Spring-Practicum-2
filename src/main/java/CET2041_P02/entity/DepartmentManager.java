@@ -1,11 +1,18 @@
 package CET2041_P02.entity;
 
 import jakarta.persistence.*;
+import lombok.*;
 
 import java.time.LocalDate;
 
 @Entity
 @Table(name = "dept_manager")
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@ToString
+@IdClass(DepartmentManagerId.class)
 public class DepartmentManager {
 
   @Id
@@ -23,36 +30,4 @@ public class DepartmentManager {
 
   @Column(name = "to_date", nullable = false)
   private LocalDate toDate;
-
-  public Employee getManager() {
-    return manager;
-  }
-
-  public void setManager(Employee manager) {
-    this.manager = manager;
-  }
-
-  public Department getDepartment() {
-    return department;
-  }
-
-  public void setDepartment(Department department) {
-    this.department = department;
-  }
-
-  public LocalDate getFromDate() {
-    return fromDate;
-  }
-
-  public void setFromDate(LocalDate fromDate) {
-    this.fromDate = fromDate;
-  }
-
-  public LocalDate getToDate() {
-    return toDate;
-  }
-
-  public void setToDate(LocalDate toDate) {
-    this.toDate = toDate;
-  }
 }

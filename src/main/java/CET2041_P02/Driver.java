@@ -1,31 +1,29 @@
 package CET2041_P02;
 
 import CET2041_P02.dao.CompanyDAO;
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.EntityManagerFactory;
-import jakarta.persistence.Persistence;
+import jakarta.ws.rs.core.Response;
 
-import java.util.HashMap;
-import java.util.Map;
 
 public class Driver {
-  static final String DBNAME = "employees";
 
   public static void main(String[] args) {
-    // overriding the existing properties in persistence.xml
-    Map<String,String> persistenceMap = new HashMap<>();
-    persistenceMap.put("jakarta.persistence.jdbc.url",
-      "jdbc:mariadb://localhost:3306/"+DBNAME);
 
-    try (EntityManagerFactory emf = Persistence.createEntityManagerFactory(
-      "EmployeePersistence", persistenceMap)) {
-      EntityManager em = emf.createEntityManager();
-      CompanyDAO companyDAO = new CompanyDAO(em);
+    CompanyDAO companyDAO = new CompanyDAO();
 
-      System.out.println(companyDAO.findEmployee(10001));
+    try (Response res = companyDAO.findAllDepartment()) {
+      System.out.println("\n\n---------- GET All Departments ----------");
+      System.out.println("📤Response Object:");
+      System.out.println(res.toString());
+      System.out.println(res.getEntity().toString());
+      System.out.println("\n\n");
+    }
 
-
-      em.close();
+    try (Response res = companyDAO.findEmployeeById(10001)) {
+      System.out.println("\n\n---------- GET Employee By Id ----------");
+      System.out.println("📤Response Object:");
+      System.out.println(res.toString());
+      System.out.println(res.getEntity().toString());
+      System.out.println("\n\n");
     }
 
 
