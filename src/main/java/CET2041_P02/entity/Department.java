@@ -13,6 +13,10 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString(exclude = {"employees","managers"})
+@NamedQueries({
+  @NamedQuery(name="Department.findAll",
+              query="SELECT d FROM Department d")
+  })
 public class Department {
   @Id
   @Column(name = "dept_no", nullable = false, length = 4)

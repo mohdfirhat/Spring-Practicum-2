@@ -29,10 +29,11 @@ public class CompanyDAO {
   @Path("/department")
   @Produces(MediaType.APPLICATION_JSON)
   public Response findAllDepartment() {
-    EntityManagerFactory emf = AppEntityManagerFactory.getInstance();
+    EntityManagerFactory emf = AppEntityManagerFactory.getInstance().getEntityManagerFactory();
 
     try (EntityManager em = emf.createEntityManager()){
-      List<Department> departments = em.createQuery("SELECT d FROM Department d",Department.class).getResultList();
+      List<Department> departments =
+        em.createNamedQuery("Department.findAll",Department.class).getResultList();
 
       return Response.ok(departments).build();
     }
@@ -42,7 +43,7 @@ public class CompanyDAO {
   @Path("/employee/{employeeId}")
   @Produces(MediaType.APPLICATION_JSON)
   public Response findEmployeeById(@PathParam("employeeId") int employeeId) {
-    EntityManagerFactory emf = AppEntityManagerFactory.getInstance();
+    EntityManagerFactory emf = AppEntityManagerFactory.getInstance().getEntityManagerFactory();
 
     try (EntityManager em = emf.createEntityManager()){
       Employee employee = em.find(Employee.class,employeeId);

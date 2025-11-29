@@ -5,22 +5,21 @@ import jakarta.persistence.Persistence;
 
 public class AppEntityManagerFactory {
 
-  private static EntityManagerFactory emf;
+  private final EntityManagerFactory entityManagerFactory;
 
-  private AppEntityManagerFactory() {}
-
-  public static EntityManagerFactory getInstance() {
-    if (emf == null) {
-      emf = Persistence.createEntityManagerFactory(
-      "EmployeePersistence");
-    }
-    return emf;
+  private AppEntityManagerFactory() {
+    entityManagerFactory = Persistence.createEntityManagerFactory("EmployeePersistence");
   }
 
-  public static void close() {
-    if (emf != null && emf.isOpen()) {
-      emf.close();
-    }
+  private static class Singleton {
+    private static final AppEntityManagerFactory INSTANCE = new AppEntityManagerFactory();
   }
 
+  public static AppEntityManagerFactory getInstance() {
+    return Singleton.INSTANCE;
+  }
+
+  public EntityManagerFactory getEntityManagerFactory() {
+    return entityManagerFactory;
+  }
 }
