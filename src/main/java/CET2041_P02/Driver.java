@@ -26,6 +26,25 @@ public class Driver {
       System.out.println("\n\n");
     }
 
+    try (Response res = companyDAO.findEmployeeRecords("d001",1)) {
+      System.out.println("\n\n---------- GET Employee Record Department " +
+        "'d001' and page 1 ----------");
+      System.out.println("📤Response Object:");
+      System.out.println(res.toString());
+      System.out.println(res.getEntity().toString());
+      System.out.println("\n\n");
+    }
+
+    try (Response res = companyDAO.findEmployeeRecords("d001",0)) {
+      System.out.println("\n\n---------- GET Employee Record Department " +
+        "'d001' and page 0 (ErrorMessage) ----------");
+      System.out.println("📤Response Object:");
+      System.out.println(res.toString());
+      System.out.println(res.getEntity().toString());
+      System.out.println("\n\n");
+    }
+
+
 
   }
 
