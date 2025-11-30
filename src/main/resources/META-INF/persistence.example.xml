@@ -16,6 +16,8 @@
     <class>CET2041_P02.entity.Department</class>
     <class>CET2041_P02.entity.DepartmentEmployee</class>
     <class>CET2041_P02.entity.DepartmentManager</class>
+    <class>CET2041_P02.entity.Salary</class>
+    <class>CET2041_P02.entity.Title</class>
 
     <properties>
       <property name="jakarta.persistence.jdbc.driver"

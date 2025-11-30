@@ -1,7 +1,8 @@
 package CET2041_P02.dao;
 
-
 import CET2041_P02.EntityManager.AppEntityManagerFactory;
+import CET2041_P02.dto.EmployeeRecordDto;
+import CET2041_P02.dto.ErrorMessageDto;
 import CET2041_P02.entity.Department;
 import CET2041_P02.entity.Employee;
 import jakarta.persistence.EntityManager;
@@ -12,10 +13,11 @@ import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-
+@Service
 @Path("")
 public class CompanyDAO {
 
@@ -29,7 +31,8 @@ public class CompanyDAO {
   @Path("/department")
   @Produces(MediaType.APPLICATION_JSON)
   public Response findAllDepartment() {
-    EntityManagerFactory emf = AppEntityManagerFactory.getInstance().getEntityManagerFactory();
+    EntityManagerFactory emf =
+      AppEntityManagerFactory.getInstance().getEntityManagerFactory();
 
     try (EntityManager em = emf.createEntityManager()){
       List<Department> departments =
@@ -47,8 +50,34 @@ public class CompanyDAO {
 
     try (EntityManager em = emf.createEntityManager()){
       Employee employee = em.find(Employee.class,employeeId);
+      employee.getSalaries().size();
+      employee.getTitles().size();
 
       return Response.ok(employee).build();
+    }
+  }
+
+  @GET
+  @Path("/employee/department/{deptNo}/page/{pageNo}")
+  @Produces(MediaType.APPLICATION_JSON)
+  public Response findEmployeeRecords(@PathParam("deptNo") String deptNo,
+                                      @PathParam("pageNo") int pageNo) {
+
+    if (pageNo < 1) {
+      return Response.status(Response.Status.BAD_REQUEST).entity(new ErrorMessageDto("Page Number must be more than 0")).build();
+    }
+
+    EntityManagerFactory emf = AppEntityManagerFactory.getInstance().getEntityManagerFactory();
+    pageNo--;
+    int pageSize = 20;
+    try (EntityManager em = emf.createEntityManager()){
+      List<EmployeeRecordDto> employeeRecords =
+        em.createNamedQuery("Employee.findAllEmployeeRecords", EmployeeRecordDto.class)
+          .setParameter("deptNo",deptNo).setFirstResult(pageNo*pageSize)
+          .setMaxResults(pageSize)
+          .getResultList();
+
+      return Response.ok(employeeRecords).build();
     }
   }
 

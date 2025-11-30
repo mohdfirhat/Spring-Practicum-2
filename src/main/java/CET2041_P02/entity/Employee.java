@@ -14,6 +14,11 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString(exclude = {"departmentEmployees","departmentManagers"})
+@NamedQueries({
+  @NamedQuery(name="Employee.findAllEmployeeRecords",
+    query="SELECT e.empNo,e.firstName,e.lastName,e.hireDate FROM Employee e " +
+      "JOIN e.departmentEmployees de JOIN de.department d WHERE d.deptNo = :deptNo")
+})
 public class Employee {
   @Id
   @Column(name = "emp_no", nullable = false)
