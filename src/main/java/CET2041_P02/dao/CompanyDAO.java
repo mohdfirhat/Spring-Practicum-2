@@ -49,6 +49,7 @@ public class CompanyDAO {
 
     try (EntityManager em = emf.createEntityManager()){
       Employee employee = em.find(Employee.class,employeeId);
+      employee.getSalaries().size();
 
       return Response.ok(employee).build();
     }
