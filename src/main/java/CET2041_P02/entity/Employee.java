@@ -42,4 +42,7 @@ public class Employee {
   @OneToMany(mappedBy = "manager")
   @JsonIgnore
   private List<DepartmentManager> departmentManagers;
+
+  @OneToMany(mappedBy = "employee")
+  private List<Salary> salaries;
 }
