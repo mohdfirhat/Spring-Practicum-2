@@ -50,4 +50,7 @@ public class Employee {
 
   @OneToMany(mappedBy = "employee")
   private List<Salary> salaries;
+
+  @OneToMany(mappedBy = "employee")
+  private List<Title> titles;
 }
