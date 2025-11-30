@@ -16,19 +16,8 @@ public class JacksonConfig implements ContextResolver<ObjectMapper> {
 
   public JacksonConfig() {
     mapper = new ObjectMapper();
-
-    // Register module to support java.time types
     mapper.registerModule(new JavaTimeModule());
-
-    // Important: disable timestamps for dates — this makes LocalDate -> "yyyy-MM-dd"
     mapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
-
-    // Optional improvements:
-    // mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
-    // mapper.enable(DeserializationFeature.READ_UNKNOWN_ENUM_VALUES_AS_NULL);
-
-    // If you want a custom pattern for LocalDate: register serializers/deserializers
-    // but for ISO-8601 default behavior above is usually fine.
   }
 
   @Override

@@ -1,6 +1,5 @@
 package CET2041_P02.dao;
 
-
 import CET2041_P02.EntityManager.AppEntityManagerFactory;
 import CET2041_P02.dto.EmployeeRecordDto;
 import CET2041_P02.dto.ErrorMessageDto;
@@ -14,10 +13,11 @@ import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-
+@Service
 @Path("")
 public class CompanyDAO {
 
@@ -31,7 +31,8 @@ public class CompanyDAO {
   @Path("/department")
   @Produces(MediaType.APPLICATION_JSON)
   public Response findAllDepartment() {
-    EntityManagerFactory emf = AppEntityManagerFactory.getInstance().getEntityManagerFactory();
+    EntityManagerFactory emf =
+      AppEntityManagerFactory.getInstance().getEntityManagerFactory();
 
     try (EntityManager em = emf.createEntityManager()){
       List<Department> departments =
