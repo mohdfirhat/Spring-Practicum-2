@@ -8,16 +8,21 @@ import java.time.LocalDate;
 import java.util.Objects;
 
 @Embeddable
-public class SalaryId  implements Serializable {
+public class TitleId implements Serializable {
     @Column(name = "emp_no", nullable = false)
     private int empNo;
+
+    @Column(name = "title", nullable = false)
+    private String title;
+
     @Column(name = "from_date", nullable = false)
     private LocalDate fromDate;
 
-    public SalaryId(){}
+    public TitleId() {}
 
-    public SalaryId(int empNo, LocalDate fromDate) {
+    public TitleId(int empNo, String title, LocalDate fromDate) {
         this.empNo = empNo;
+        this.title = title;
         this.fromDate = fromDate;
     }
 
@@ -27,6 +32,14 @@ public class SalaryId  implements Serializable {
 
     public void setEmpNo(int empNo) {
         this.empNo = empNo;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     public LocalDate getFromDate() {
@@ -41,12 +54,13 @@ public class SalaryId  implements Serializable {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        SalaryId salaryId = (SalaryId) o;
-        return Objects.equals(empNo, salaryId.empNo) && Objects.equals(fromDate, salaryId.fromDate);
+        TitleId titleId = (TitleId) o;
+        return Objects.equals(empNo, titleId.getEmpNo()) && Objects.equals(fromDate,
+                titleId.getFromDate()) && Objects.equals(title, titleId.getTitle());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(empNo, fromDate);
+        return Objects.hash(empNo, title, fromDate);
     }
 }
