@@ -2,6 +2,7 @@ package CET2041_P02;
 
 import CET2041_P02.config.JacksonConfig;
 //import CET2041_P02.dao.CompanyDAO;
+import CET2041_P02.controller.DepartmentController;
 import CET2041_P02.controller.EmployeeController;
 import jakarta.ws.rs.ApplicationPath;
 import jakarta.ws.rs.core.Application;
@@ -16,6 +17,7 @@ public class CompanyApp extends Application {
     Set<Class<?>> classes = new HashSet<>();
 //    classes.add(CompanyDAO.class);
     classes.add(EmployeeController.class);
+    classes.add(DepartmentController.class);
     classes.add(JacksonConfig.class);
     return classes;
   }

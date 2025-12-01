@@ -1,5 +1,6 @@
 package CET2041_P02;
 
+import CET2041_P02.controller.DepartmentController;
 import CET2041_P02.controller.EmployeeController;
 import jakarta.ws.rs.core.Response;
 
@@ -10,14 +11,15 @@ public class Driver {
   public static void main(String[] args) {
 
       EmployeeController employeeController = new EmployeeController();
+      DepartmentController departmentController = new DepartmentController();
 
-//      try (Response res = companyDAO.findAllDepartment()) {
-//        System.out.println("\n\n---------- GET All Departments ----------");
-//        System.out.println("📤Response Object:");
-//        System.out.println(res.toString());
-//        System.out.println(res.getEntity().toString());
-//        System.out.println("\n\n");
-//      }
+      try (Response res = departmentController.findAll()) {
+        System.out.println("\n\n---------- GET All Departments ----------");
+        System.out.println("📤Response Object:");
+        System.out.println(res.toString());
+        System.out.println(res.getEntity().toString());
+        System.out.println("\n\n");
+      }
 
       try (Response res = employeeController.findEmployeeById(10001)) {
         System.out.println("\n\n---------- GET Employee By Id ----------");
