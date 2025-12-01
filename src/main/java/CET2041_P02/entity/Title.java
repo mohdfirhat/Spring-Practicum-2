@@ -1,5 +1,6 @@
 package CET2041_P02.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
@@ -23,6 +24,7 @@ public class Title {
     @MapsId("empNo")
     @ManyToOne
     @JsonIgnore
+//    @JsonBackReference
     @JoinColumn(name = "emp_no", nullable = false)
     private Employee employee;
 }

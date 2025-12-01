@@ -1,6 +1,7 @@
 package CET2041_P02.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -13,6 +14,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString(exclude = {"employees","managers"})
+//@ToString
 @NamedQueries({
   @NamedQuery(name="Department.findAll",
               query="SELECT d FROM Department d")
@@ -27,9 +29,11 @@ public class Department {
 
   @OneToMany(mappedBy = "department")
   @JsonIgnore
+//  @JsonManagedReference
   private List<DepartmentEmployee> employees;
 
   @OneToMany(mappedBy = "department")
   @JsonIgnore
+//  @JsonManagedReference
   private List<DepartmentManager> managers;
 }

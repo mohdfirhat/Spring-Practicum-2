@@ -25,14 +25,6 @@
       <scope>test</scope>
     </dependency>
 
-    <!-- Spring Context -->
-    <!-- https://mvnrepository.com/artifact/org.springframework/spring-context -->
-    <dependency>
-      <groupId>org.springframework</groupId>
-      <artifactId>spring-context</artifactId>
-      <version>7.0.1</version>
-    </dependency>
-
     <!-- https://mvnrepository.com/artifact/org.hibernate.orm/hibernate-core -->
     <dependency>
       <groupId>org.hibernate.orm</groupId>
