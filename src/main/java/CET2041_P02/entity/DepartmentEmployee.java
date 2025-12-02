@@ -1,5 +1,6 @@
 package CET2041_P02.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -11,13 +12,14 @@ import java.time.LocalDate;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString
+@ToString(exclude = "employee")
 @IdClass(DepartmentEmployeeId.class)
 public class DepartmentEmployee {
 
   @Id
   @ManyToOne
   @JoinColumn(name = "emp_no",referencedColumnName = "emp_no",nullable = false)
+  @JsonBackReference("emp-dept")
   private Employee employee;
 
   @Id

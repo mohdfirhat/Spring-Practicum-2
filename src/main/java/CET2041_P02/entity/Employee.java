@@ -1,5 +1,6 @@
 package CET2041_P02.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
@@ -14,8 +15,8 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString(exclude = {"departmentEmployees","departmentManagers"})
-//@ToString
+//@ToString(exclude = {"departmentEmployees","departmentManagers"})
+@ToString
 @NamedQueries({
   @NamedQuery(name="Employee.findAllEmployeeRecords",
     query="SELECT NEW CET2041_P02.dto.EmployeeRecordDto(e.empNo,e.firstName,e.lastName,e" +
@@ -44,13 +45,13 @@ public class Employee {
   private LocalDate hireDate;
 
   @OneToMany(mappedBy = "employee")
-//  @JsonManagedReference
-  @JsonIgnore
+  @JsonManagedReference("emp-dept")
+//  @JsonIgnore
   private List<DepartmentEmployee> departmentEmployees;
 
   @OneToMany(mappedBy = "manager")
-//  @JsonManagedReference
-  @JsonIgnore
+  @JsonManagedReference("mng-dept")
+//  @JsonIgnore
   private List<DepartmentManager> departmentManagers;
 
   @OneToMany(mappedBy = "employee")

@@ -1,16 +1,15 @@
 package CET2041_P02.controller;
 
 import CET2041_P02.EntityManager.AppEntityManagerFactory;
+import CET2041_P02.dto.EmployeePromotionDto;
 import CET2041_P02.dto.EmployeeRecordDto;
 import CET2041_P02.dto.ErrorMessageDto;
 import CET2041_P02.entity.Employee;
 import CET2041_P02.service.EmployeeService;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
-import jakarta.ws.rs.GET;
-import jakarta.ws.rs.Path;
-import jakarta.ws.rs.PathParam;
-import jakarta.ws.rs.Produces;
+import jakarta.persistence.PostLoad;
+import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 
@@ -33,11 +32,19 @@ public class EmployeeController {
   }
 
   @GET
-  @Path("/department/{deptNo}/page/{pageNo}")
+  @Path("")
   @Produces(MediaType.APPLICATION_JSON)
-  public Response findEmployeeRecords(@PathParam("deptNo") String deptNo,
-                                      @PathParam("pageNo") int pageNo) {
+  public Response findEmployeeRecords(@QueryParam("deptNo") String deptNo,
+                                      @QueryParam("page") @DefaultValue("1") int pageNo) {
     return employeeService.findEmployeeRecords(deptNo, pageNo);
+  }
+
+  @POST
+  @Path("/{employeeId}")
+  @Consumes(MediaType.APPLICATION_JSON)
+  @Produces(MediaType.APPLICATION_JSON)
+  public Response promoteEmployee(@PathParam("employeeId") int employeeId, EmployeePromotionDto employeePromotionDto) {
+    return employeeService.promoteEmployee(employeeId,employeePromotionDto);
   }
 
 
