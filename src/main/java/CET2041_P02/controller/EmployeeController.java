@@ -32,7 +32,6 @@ public class EmployeeController {
   }
 
   @GET
-  @Path("")
   @Produces(MediaType.APPLICATION_JSON)
   public Response findEmployeeRecords(@QueryParam("deptNo") String deptNo,
                                       @QueryParam("page") @DefaultValue("1") int pageNo) {
