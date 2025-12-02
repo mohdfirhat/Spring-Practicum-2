@@ -22,4 +22,9 @@ public class AppEntityManagerFactory {
   public EntityManagerFactory getEntityManagerFactory() {
     return entityManagerFactory;
   }
+  public void close() {
+    if (entityManagerFactory.isOpen()) {
+      entityManagerFactory.close();
+    }
+  }
 }

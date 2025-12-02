@@ -56,7 +56,11 @@ public class EmployeeService {
       return Response.status(Response.Status.NOT_FOUND).build();
     }
 
-    employeeRepository.promoteEmployee(employeeId, employeePromotionDto);
+    String errorMessage = employeeRepository.promoteEmployee(employeeId, employeePromotionDto);
+
+    if (errorMessage != null) {
+      return Response.status(Response.Status.BAD_REQUEST).entity(errorMessage).build();
+    }
 
     return Response.ok().build();
   }

@@ -46,17 +46,19 @@ public class Employee {
 
   @OneToMany(mappedBy = "employee")
   @JsonManagedReference("emp-dept")
-//  @JsonIgnore
+  @OrderBy("toDate ASC")
   private List<DepartmentEmployee> departmentEmployees;
 
   @OneToMany(mappedBy = "manager")
   @JsonManagedReference("mng-dept")
-//  @JsonIgnore
+  @OrderBy("toDate ASC")
   private List<DepartmentManager> departmentManagers;
 
   @OneToMany(mappedBy = "employee")
+  @OrderBy("toDate ASC")
   private List<Salary> salaries;
 
   @OneToMany(mappedBy = "employee")
+  @OrderBy("toDate ASC")
   private List<Title> titles;
 }
