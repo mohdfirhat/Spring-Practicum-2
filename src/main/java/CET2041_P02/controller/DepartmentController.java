@@ -45,7 +45,7 @@ public class DepartmentController {
     /**
      * Handles HTTP GET requests to retrieve all departments in the system.
      *
-     * <p>API path: {@code GET /department/all}</p>
+     * <p>API path: {@code GET /department}</p>
      *
      * <p>This method delegates the database read operation to the
      * {@link DepartmentService}, and returns a JSON array containing all
@@ -58,7 +58,6 @@ public class DepartmentController {
      *     </ul>
      */
     @GET
-    @Path("/all")
     @Produces(MediaType.APPLICATION_JSON)
     public Response findAll() {
         return departmentService.findAllDepartments();
