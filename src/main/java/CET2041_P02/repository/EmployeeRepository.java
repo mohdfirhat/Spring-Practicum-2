@@ -17,14 +17,33 @@ import jakarta.ws.rs.core.Response;
 import java.time.LocalDate;
 import java.util.List;
 
+/**
+ * Repository class responsible for database operations related to {@link Employee}
+ * entities. Uses JPA {@link EntityManager} created from the shared
+ * {@link EntityManagerFactory}.
+ */
 public class EmployeeRepository {
 
+  /**
+   * Shared EntityManagerFactory used to create EntityManager instances.
+   */
   private EntityManagerFactory emf;
 
+  /**
+   * Constructs the repository by obtaining the application's singleton
+   * {@code EntityManagerFactory}.
+   */
   public EmployeeRepository() {
     this.emf = AppEntityManagerFactory.getInstance().getEntityManagerFactory();
   }
 
+  /**
+   * Finds an employee by its identifier and initializes related collections
+   * needed for further processing (departments, salaries, titles, managers).
+   *
+   * @param employeeId the employee identifier
+   * @return the {@link Employee} instance, or {@code null} if not found
+   */
   public Employee findEmployeeById(@PathParam("employeeId") int employeeId) {
     try (EntityManager em = emf.createEntityManager()){
       Employee employee = em.find(Employee.class,employeeId);
@@ -37,6 +56,15 @@ public class EmployeeRepository {
     }
   }
 
+  /**
+   * Retrieves a page of employee records filtered by department.
+   * Uses a named query {@code Employee.findAllEmployeeRecords} and maps
+   * results to {@link EmployeeRecordDto}.
+   *
+   * @param deptNo the department number to filter by
+   * @param pageNo the page number for pagination
+   * @return list of employee record DTOs for the given page
+   */
   public List<EmployeeRecordDto> findEmployeeRecords( String deptNo,
                                        int pageNo) {
     int pageSize = 20;
@@ -52,6 +80,17 @@ public class EmployeeRepository {
     }
   }
 
+  /**
+   * Applies a promotion to an employee based on the given promotion details.
+   * This method updates salary, title, department assignments, and manager
+   * status within a single transaction.
+   *
+   * @param employeeId             the employee to be promoted
+   * @param employeePromotionDto   the promotion details (new dept, title, salary, etc.)
+   * @return {@code null} if the promotion is successful;
+   *         an error message string if the employee is not found, the department
+   *         does not exist, or an exception occurs
+   */
   public String promoteEmployee(int employeeId, EmployeePromotionDto employeePromotionDto) {
     Employee employee = this.findEmployeeById(employeeId);
 
