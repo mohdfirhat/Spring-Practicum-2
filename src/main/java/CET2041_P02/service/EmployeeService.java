@@ -70,12 +70,18 @@ public class EmployeeService {
    *         or HTTP 400 with error message if validation or update fails
    */
   public Response promoteEmployee(int employeeId, EmployeePromotionDto employeePromotionDto) {
+
+    if (employeePromotionDto.getSalary() <= 0) {
+      return Response.status(Response.Status.BAD_REQUEST).entity("Salary " +
+        "must be more than 0").build();
+    }
+
     // find employee
     Employee employee = employeeRepository.findEmployeeById(employeeId);
 
     // return not found response if employee not found
     if (employee == null) {
-      return Response.status(Response.Status.NOT_FOUND).build();
+      return Response.status(Response.Status.BAD_REQUEST).build();
     }
 
 
@@ -88,3 +94,4 @@ public class EmployeeService {
     return Response.ok().build();
   }
 }
+`

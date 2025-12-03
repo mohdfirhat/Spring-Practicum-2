@@ -4,6 +4,7 @@ import CET2041_P02.EntityManager.AppEntityManagerFactory;
 import CET2041_P02.dto.EmployeePromotionDto;
 import CET2041_P02.dto.EmployeeRecordDto;
 import CET2041_P02.entity.*;
+import jakarta.persistence.EntityExistsException;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.ws.rs.BadRequestException;
@@ -135,6 +136,8 @@ public class EmployeeRepository {
             newSalary.setToDate(LocalDate.parse("9999-01-01"));
             newSalary.setEmployee(employee);
             em.persist(newSalary);
+          } catch (EntityExistsException e) {
+            throw new BadRequestException("The effective date conflicts with current salary adjustment date.");
           } catch (Exception e) {
             throw new BadRequestException(String.format("Create Salary fail : %s : %s",
               e.getClass().getName(),e.getMessage()));
