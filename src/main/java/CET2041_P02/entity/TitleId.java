@@ -2,54 +2,38 @@ package CET2041_P02.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.Objects;
 
+/** TitleId Class to represent the composite primary key of the {@link Title} entity */
 @Embeddable
+@Getter
+@Setter
+@AllArgsConstructor
 public class TitleId implements Serializable {
+
+    /** Variable for the primary key for the {@link Employee} entity */
     @Column(name = "emp_no", nullable = false)
     private int empNo;
 
+    /** Variable for name of title */
     @Column(name = "title", nullable = false)
     private String title;
 
+    /** Variable for start date of the title */
     @Column(name = "from_date", nullable = false)
     private LocalDate fromDate;
 
-    public TitleId() {}
-
-    public TitleId(int empNo, String title, LocalDate fromDate) {
-        this.empNo = empNo;
-        this.title = title;
-        this.fromDate = fromDate;
-    }
-
-    public int getEmpNo() {
-        return empNo;
-    }
-
-    public void setEmpNo(int empNo) {
-        this.empNo = empNo;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public LocalDate getFromDate() {
-        return fromDate;
-    }
-
-    public void setFromDate(LocalDate fromDate) {
-        this.fromDate = fromDate;
-    }
-
+    /**
+     * equals method to see if the TitleId is the same
+     * @param o Object to compare
+     * @return true if the TitleId is the same
+     */
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -59,8 +43,15 @@ public class TitleId implements Serializable {
                 titleId.getFromDate()) && Objects.equals(title, titleId.getTitle());
     }
 
+    /**
+     *  Method to get the hash code
+     * @return hashCode of the empNo, title and fromDate associated with the TitleId
+     */
     @Override
     public int hashCode() {
         return Objects.hash(empNo, title, fromDate);
     }
+
+    /** No Argument Constructor for TitleId */
+    public TitleId() {};
 }
