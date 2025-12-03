@@ -6,6 +6,7 @@ import CET2041_P02.dto.EmployeeRecordDto;
 import CET2041_P02.entity.*;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
+import jakarta.ws.rs.BadRequestException;
 import jakarta.ws.rs.PathParam;
 
 import java.time.LocalDate;
@@ -89,8 +90,9 @@ public class EmployeeRepository {
     Employee employee = this.findEmployeeById(employeeId);
 
     if (employee == null) {
-      return "Employee not found";
+      return "Invalid employee Id: Employee not found";
     }
+
 
     // Getting manager status
     boolean isManager;
@@ -116,50 +118,66 @@ public class EmployeeRepository {
     try (EntityManager em = emf.createEntityManager()) {
       try {
         em.getTransaction().begin();
+
         //if same department
         if (currentDeptNo.equals(employeePromotionDto.getDeptNo())) {
           // Salary: update and create salary
           Salary oldSalary = employee.getSalaries().getLast();
           oldSalary.setToDate(employeePromotionDto.getEffectiveDate());
-          SalaryId salaryId = new SalaryId(employeeId,
-            employeePromotionDto.getEffectiveDate());
-//        Salary newSalary = new Salary(salaryId,
-//          employeePromotionDto.getSalary(), LocalDate.parse("9999-01-01"),);
-          Salary newSalary = new Salary();
-          newSalary.setSalaryId(salaryId);
-          newSalary.setSalary(employeePromotionDto.getSalary());
-          newSalary.setToDate(LocalDate.parse("9999-01-01"));
-          newSalary.setEmployee(employee);
-
           em.merge(oldSalary);
-          em.persist(newSalary);
+
+          try {
+            SalaryId salaryId = new SalaryId(employeeId,
+              employeePromotionDto.getEffectiveDate());
+            Salary newSalary = new Salary();
+            newSalary.setSalaryId(salaryId);
+            newSalary.setSalary(employeePromotionDto.getSalary());
+            newSalary.setToDate(LocalDate.parse("9999-01-01"));
+            newSalary.setEmployee(employee);
+            em.persist(newSalary);
+          } catch (Exception e) {
+            throw new BadRequestException(String.format("Create Salary fail : %s : %s",
+              e.getClass().getName(),e.getMessage()));
+          }
 
 
           // Title: if same do nothing
           // if diff,update and create title
           if (!oldTitle.getTitleId().getTitle().equals(employeePromotionDto.getTitle())) {
             oldTitle.setToDate(employeePromotionDto.getEffectiveDate());
-            TitleId newTitleId = new TitleId(employeeId,
-              employeePromotionDto.getTitle(), employeePromotionDto.getEffectiveDate());
-            Title newTitle = new Title();
-            newTitle.setTitleId(newTitleId);
-            newTitle.setToDate(LocalDate.parse("9999-01-01"));
-            newTitle.setEmployee(employee);
-
             em.merge(oldTitle);
-            em.persist(newTitle);
+
+            try {
+              TitleId newTitleId = new TitleId(employeeId,
+                employeePromotionDto.getTitle(), employeePromotionDto.getEffectiveDate());
+              Title newTitle = new Title();
+              newTitle.setTitleId(newTitleId);
+              newTitle.setToDate(LocalDate.parse("9999-01-01"));
+              newTitle.setEmployee(employee);
+              em.persist(newTitle);
+            } catch (Exception e) {
+              throw new BadRequestException(String.format("Create Title fail " +
+                  ": %s : %s",
+                e.getClass().getName(),e.getMessage()));
+            }
           }
           // if newManager, update(if is currently manager) and create departmentmanager
           if (!isManager && employeePromotionDto.getIsManager()) {
 
-            DepartmentManagerId newDepartmentManagerId =
-              new DepartmentManagerId(employeeId, currentDeptNo);
-            DepartmentManager newDepartmentManager = new DepartmentManager();
-            newDepartmentManager.setManager(employee);
-            newDepartmentManager.setDepartment(employee.getDepartmentEmployees().getLast().getDepartment());
-            newDepartmentManager.setFromDate(employeePromotionDto.getEffectiveDate());
-            newDepartmentManager.setToDate(LocalDate.parse("9999-01-01"));
-            em.persist(newDepartmentManager);
+            try {
+              DepartmentManagerId newDepartmentManagerId =
+                new DepartmentManagerId(employeeId, currentDeptNo);
+              DepartmentManager newDepartmentManager = new DepartmentManager();
+              newDepartmentManager.setManager(employee);
+              newDepartmentManager.setDepartment(employee.getDepartmentEmployees().getLast().getDepartment());
+              newDepartmentManager.setFromDate(employeePromotionDto.getEffectiveDate());
+              newDepartmentManager.setToDate(LocalDate.parse("9999-01-01"));
+              em.persist(newDepartmentManager);
+            } catch (Exception e) {
+              throw new BadRequestException(String.format("Create " +
+                  "DepartmentManager fail : %s : %s",
+                e.getClass().getName(),e.getMessage()));
+            }
           }
 
 
@@ -170,8 +188,8 @@ public class EmployeeRepository {
           Department newDepartment = em.find(Department.class, employeePromotionDto.getDeptNo());
 
           if (newDepartment == null) {
-            em.close();
-            return "Given Department does not exist.";
+            throw new BadRequestException("Invalid Department Number: " +
+              "Department not found");
           }
 
 
@@ -180,6 +198,7 @@ public class EmployeeRepository {
           oldSalary.setToDate(employeePromotionDto.getEffectiveDate());
           em.merge(oldSalary);
 
+          try {
           //Create new salary
           SalaryId salaryId = new SalaryId(employeeId,
             employeePromotionDto.getEffectiveDate());
@@ -189,6 +208,10 @@ public class EmployeeRepository {
           newSalary.setToDate(LocalDate.parse("9999-01-01"));
           newSalary.setEmployee(employee);
           em.persist(newSalary);
+          } catch (Exception e) {
+            throw new BadRequestException(String.format("Create Salary fail : %s : %s",
+              e.getClass().getName(),e.getMessage()));
+          }
 
 
           // Title: if same do nothing
@@ -199,13 +222,19 @@ public class EmployeeRepository {
             em.merge(oldTitle);
 
             //create newTitle
-            TitleId newTitleId = new TitleId(employeeId,
-              employeePromotionDto.getTitle(), employeePromotionDto.getEffectiveDate());
-            Title newTitle = new Title();
-            newTitle.setTitleId(newTitleId);
-            newTitle.setToDate(LocalDate.parse("9999-01-01"));
-            newTitle.setEmployee(employee);
-            em.persist(newTitle);
+            try {
+              TitleId newTitleId = new TitleId(employeeId,
+                employeePromotionDto.getTitle(), employeePromotionDto.getEffectiveDate());
+              Title newTitle = new Title();
+              newTitle.setTitleId(newTitleId);
+              newTitle.setToDate(LocalDate.parse("9999-01-01"));
+              newTitle.setEmployee(employee);
+              em.persist(newTitle);
+            } catch (Exception e) {
+              throw new BadRequestException(String.format("Create Title fail " +
+                  ": %s : %s",
+                e.getClass().getName(),e.getMessage()));
+            }
           }
 
           // DepartmentEmployee update and create
@@ -215,39 +244,54 @@ public class EmployeeRepository {
           em.merge(oldDeptEmp);
 
           // Create newDeptEmp
-          DepartmentEmployee newDeptEmp = new DepartmentEmployee();
-          newDeptEmp.setEmployee(employee);
-          newDeptEmp.setDepartment(newDepartment);
-          newDeptEmp.setToDate(LocalDate.parse("9999-01-01"));
-          newDeptEmp.setFromDate(employeePromotionDto.getEffectiveDate());
+          try {
+            DepartmentEmployee newDeptEmp = new DepartmentEmployee();
+            newDeptEmp.setEmployee(employee);
+            newDeptEmp.setDepartment(newDepartment);
+            newDeptEmp.setToDate(LocalDate.parse("9999-01-01"));
+            newDeptEmp.setFromDate(employeePromotionDto.getEffectiveDate());
+            em.persist(newDeptEmp);
+          } catch (Exception e) {
+            throw new BadRequestException(String.format("Create " +
+                "DepartmentEmployee fail : %s : %s",
+              e.getClass().getName(),e.getMessage()));
+          }
 
 
-          // if newManager, update(if is currently manager) and create departmentmanager
+          // if newManager, update (if is currently manager) and create departmentmanager
           if (!isManager && employeePromotionDto.getIsManager()) {
             // update if employee was manager
             if (!employee.getDepartmentManagers().isEmpty()) {
               DepartmentManager oldDepartmentManager = employee.getDepartmentManagers().getLast();
-              if (oldDepartmentManager.getToDate().isAfter(LocalDate.now())) {
+              //only update if employee is currently manager (does not update old record of manager)
+              if (oldDepartmentManager.getToDate().isAfter(employeePromotionDto.getEffectiveDate())) {
                 oldDepartmentManager.setToDate(employeePromotionDto.getEffectiveDate());
                 em.merge(oldDepartmentManager);
               }
             }
 
-            DepartmentManagerId newDepartmentManagerId =
-              new DepartmentManagerId(employeeId, currentDeptNo);
-            DepartmentManager newDepartmentManager = new DepartmentManager();
-            newDepartmentManager.setManager(employee);
-            newDepartmentManager.setDepartment(newDepartment);
-            newDepartmentManager.setFromDate(employeePromotionDto.getEffectiveDate());
-            newDepartmentManager.setToDate(LocalDate.parse("9999-01-01"));
-            em.persist(newDepartmentManager);
+            // Create new DepartmentManager
+            try {
+              DepartmentManagerId newDepartmentManagerId =
+                new DepartmentManagerId(employeeId, currentDeptNo);
+              DepartmentManager newDepartmentManager = new DepartmentManager();
+              newDepartmentManager.setManager(employee);
+              newDepartmentManager.setDepartment(newDepartment);
+              newDepartmentManager.setFromDate(employeePromotionDto.getEffectiveDate());
+              newDepartmentManager.setToDate(LocalDate.parse("9999-01-01"));
+              em.persist(newDepartmentManager);
+            } catch (Exception e) {
+              throw new BadRequestException(String.format("Create " +
+                  "DepartmentManager fail : %s : %s",
+                e.getClass().getName(),e.getMessage()));
+            }
           }
 
-          // if no longer manager, check and remove
+          // if no longer manager, check and update
           if (!employeePromotionDto.getIsManager()) {
             if (!employee.getDepartmentManagers().isEmpty()) {
               DepartmentManager oldDepartmentManager = employee.getDepartmentManagers().getLast();
-              if (oldDepartmentManager.getToDate().isAfter(LocalDate.now())) {
+              if (oldDepartmentManager.getToDate().isAfter(employeePromotionDto.getEffectiveDate())) {
                 oldDepartmentManager.setToDate(employeePromotionDto.getEffectiveDate());
                 em.merge(oldDepartmentManager);
               }
@@ -256,8 +300,13 @@ public class EmployeeRepository {
 
           em.getTransaction().commit();
         }
+      } catch (BadRequestException e) {
+        em.getTransaction().rollback();
+        em.close();
+        return e.getMessage();
       } catch (Exception e) {
         em.getTransaction().rollback();
+        em.close();
         return e.getMessage();
       }
 

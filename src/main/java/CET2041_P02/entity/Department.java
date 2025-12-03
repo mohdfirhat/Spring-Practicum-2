@@ -11,7 +11,6 @@ import java.util.List;
 @Table(name = "departments")
 @Getter
 @Setter
-@NoArgsConstructor
 @AllArgsConstructor
 @ToString(exclude = {"employees","managers"})
 @NamedQueries({

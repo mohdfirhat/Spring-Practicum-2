@@ -4,6 +4,7 @@ target/
 !**/src/test/**/target/
 src/main/resources/META-INF/persistence.xml
 out
+docs
 
 ### IntelliJ IDEA ###
 .idea/modules.xml

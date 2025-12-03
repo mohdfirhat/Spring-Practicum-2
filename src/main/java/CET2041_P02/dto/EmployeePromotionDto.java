@@ -1,6 +1,6 @@
 package CET2041_P02.dto;
 
-import lombok.Data;
+import lombok.*;
 
 import java.time.LocalDate;
 
@@ -14,6 +14,10 @@ import java.time.LocalDate;
  * a manager.</p>
  */
 @Data
+@AllArgsConstructor
+@Getter
+@Setter
+@ToString
 public class EmployeePromotionDto {
 
   /**

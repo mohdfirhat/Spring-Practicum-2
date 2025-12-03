@@ -1,6 +1,6 @@
 package CET2041_P02.dto;
 
-import lombok.Data;
+import lombok.*;
 
 
 import java.time.LocalDate;
@@ -10,7 +10,10 @@ import java.time.LocalDate;
  * in list or summary views, without exposing full entity details.
  */
 
-@Data
+@AllArgsConstructor
+@Getter
+@Setter
+@ToString
 public class EmployeeRecordDto {
 
   /**

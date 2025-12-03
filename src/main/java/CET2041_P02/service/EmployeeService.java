@@ -78,6 +78,7 @@ public class EmployeeService {
       return Response.status(Response.Status.NOT_FOUND).build();
     }
 
+
     String errorMessage = employeeRepository.promoteEmployee(employeeId, employeePromotionDto);
 
     if (errorMessage != null) {
