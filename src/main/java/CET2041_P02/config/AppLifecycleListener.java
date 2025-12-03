@@ -18,6 +18,12 @@ import jakarta.servlet.annotation.WebListener;
 public class AppLifecycleListener implements ServletContextListener {
 
   /**
+   * Default constructor.
+   */
+  public AppLifecycleListener() {
+  }
+
+  /**
    * Called when the application is starting. Currently no startup logic
    * is required, but this method may be used to initialize global resources.
    *

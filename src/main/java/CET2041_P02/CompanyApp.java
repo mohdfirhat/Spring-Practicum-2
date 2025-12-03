@@ -24,6 +24,11 @@ import java.util.Set;
 @ApplicationPath("/api")
 public class CompanyApp extends Application {
   /**
+   * Default constructor.
+   */
+  public CompanyApp() {}
+
+  /**
    * Registers REST controllers and supporting classes that make up
    * the application's JAX-RS resources.
    *
