@@ -1,23 +1,11 @@
 package CET2041_P02.service;
 
-import CET2041_P02.EntityManager.AppEntityManagerFactory;
 import CET2041_P02.dto.EmployeePromotionDto;
 import CET2041_P02.dto.EmployeeRecordDto;
-import CET2041_P02.dto.ErrorMessageDto;
-import CET2041_P02.entity.DepartmentManager;
 import CET2041_P02.entity.Employee;
 import CET2041_P02.repository.EmployeeRepository;
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.EntityManagerFactory;
-import jakarta.ws.rs.GET;
-import jakarta.ws.rs.Path;
-import jakarta.ws.rs.PathParam;
-import jakarta.ws.rs.Produces;
-import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 
-import java.time.LocalDate;
-import java.util.Date;
 import java.util.List;
 
 /**

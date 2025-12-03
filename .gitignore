@@ -3,6 +3,7 @@ target/
 !**/src/main/**/target/
 !**/src/test/**/target/
 src/main/resources/META-INF/persistence.xml
+out
 
 ### IntelliJ IDEA ###
 .idea/modules.xml

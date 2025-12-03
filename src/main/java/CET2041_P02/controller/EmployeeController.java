@@ -1,19 +1,10 @@
 package CET2041_P02.controller;
 
-import CET2041_P02.EntityManager.AppEntityManagerFactory;
 import CET2041_P02.dto.EmployeePromotionDto;
-import CET2041_P02.dto.EmployeeRecordDto;
-import CET2041_P02.dto.ErrorMessageDto;
-import CET2041_P02.entity.Employee;
 import CET2041_P02.service.EmployeeService;
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.EntityManagerFactory;
-import jakarta.persistence.PostLoad;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
-
-import java.util.List;
 
 /**
  * REST controller for handling employee-related requests.

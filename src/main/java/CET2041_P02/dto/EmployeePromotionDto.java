@@ -40,4 +40,7 @@ public class EmployeePromotionDto {
    * Date on which the promotion becomes effective.
    */
   private LocalDate effectiveDate;
+
+  /** No Argument Constructor for EmployeePromotionDto */
+  public EmployeePromotionDto() {};
 }
