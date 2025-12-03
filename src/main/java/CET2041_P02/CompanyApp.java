@@ -1,7 +1,6 @@
 package CET2041_P02;
 
 import CET2041_P02.config.JacksonConfig;
-//import CET2041_P02.dao.CompanyDAO;
 import CET2041_P02.controller.DepartmentController;
 import CET2041_P02.controller.EmployeeController;
 import jakarta.ws.rs.ApplicationPath;

@@ -1,6 +1,5 @@
 package CET2041_P02.controller;
 
-import CET2041_P02.entity.Department;
 import CET2041_P02.service.DepartmentService;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Path;

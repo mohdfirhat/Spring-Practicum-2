@@ -18,7 +18,7 @@ public class EmployeeService {
   /**
    * Repository used to perform database operations on employee data.
    */
-  private EmployeeRepository employeeRepository;
+  private final EmployeeRepository employeeRepository;
 
   /**
    * Constructs the service and initializes its repository dependency.
@@ -94,4 +94,3 @@ public class EmployeeService {
     return Response.ok().build();
   }
 }
-`
