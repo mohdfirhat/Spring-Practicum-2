@@ -27,7 +27,7 @@ public class EmployeeController {
 
   /**
    * Retrieves a specific employee by ID.
-   *
+   * Full path example: http://localhost:8080/CET2041_P02/api/employee/10001
    * @param employeeId the employee's identifier
    * @return HTTP 200 with employee data, or appropriate error response
    */
@@ -41,6 +41,7 @@ public class EmployeeController {
   /**
    * Retrieves employee records by optional department filter and page number.
    *
+   * full path example: http://localhost:8080/CET2041_P02/api/employee?deptNo=d003&page=1
    * @param deptNo department number to filter (optional)
    * @param pageNo page number for paginated results (default is 1)
    * @return HTTP 200 with result list, or appropriate error response
@@ -54,7 +55,14 @@ public class EmployeeController {
 
   /**
    * Promotes an employee by applying the provided promotion details.
-   *
+   * full path example: http://localhost:8080/CET2041_P02/api/employee/10001
+   * jason exmaple: {
+   * 	"deptNo": "d003",
+   *     "title": "Staff Engineer",
+   *     "salary": 100000,
+   *     "isManager": true,
+   *     "effectiveDate": "2025-12-10"
+   * }
    * @param employeeId the ID of the employee to promote
    * @param employeePromotionDto promotion data such as new title or salary
    * @return HTTP 200 with updated employee info, or appropriate error response

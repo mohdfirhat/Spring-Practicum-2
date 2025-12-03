@@ -42,6 +42,7 @@ public class DepartmentController {
         this.departmentService = new DepartmentService();
     }
 
+
     /**
      * Handles HTTP GET requests to retrieve all departments in the system.
      *
@@ -50,7 +51,7 @@ public class DepartmentController {
      * <p>This method delegates the database read operation to the
      * {@link DepartmentService}, and returns a JSON array containing all
      * department records.</p>
-     *
+     *  Full path of the endpoint: http://localhost:8080/CET2041_P02/api/department
      * @return a JAX-RS {@link Response} containing:
      *     <ul>
      *         <li>HTTP 200 (OK) with a JSON list of departments, if successful</li>
